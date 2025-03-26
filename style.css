@@ -1,0 +1,9 @@
+.singelTodo{
+    display: flex;
+    align-items: center;
+    gap: 5vw;
+}
+
+.inputCheck{
+    text-decoration: line-through;
+}

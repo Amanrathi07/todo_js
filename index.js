@@ -1,65 +1,49 @@
-display();
+displayTodo();
 
-let add = document.getElementById("add");
+document.getElementById("addBtn").addEventListener("click", () => {
+  let input = document.getElementById("inputTodo");
 
-add.addEventListener("click", () => {
-  let heading = document.getElementById("todoHeading").value;
-  let description = document.getElementById("tododisc").value;
-
-  let data = localStorage.getItem("todo");
-  if (!data) {
-    localStorage.setItem("todo", JSON.stringify([{heading,description}]));
-    display();
+  if (input.value === "") {
+    alert("Please enter a todo");
+    return;
   } else {
-  let result = JSON.parse(data);
-  let arr=[...result,{heading,description}];
-
-  console.log(arr);
-  
-  localStorage.setItem("todo", JSON.stringify(arr));
-    console.log("aman");
-    
-  display();}
+    let data = JSON.parse(localStorage.getItem("todos")) || [];
+    data.push(input.value);
+    localStorage.setItem("todos", JSON.stringify(data));
+    displayTodo();
+    input.value = "";
+  }
 });
 
-function display() {
-  
-  let data = localStorage.getItem("todo");
+function deletTodo(index) {
+  let data = JSON.parse(localStorage.getItem("todos")) || [];
+  data.splice(index, 1);
+  localStorage.setItem("todos", JSON.stringify(data));
+  displayTodo();
+}
 
-  if (!data) {
-    return;
-  } else {
-    let todoList = document.getElementById("todoList");
-    let result = JSON.parse(data);
+function displayTodo() {
+  let todos = JSON.parse(localStorage.getItem("todos")) || [];
+  let myNode = document.getElementById("showTodo");
 
-    todoList.innerHTML = "";
-    result.map((item,index)=>{
-        let div = document.createElement("div");
-        
-        div.innerHTML = `
-        <div class="todo" id=todo${index}>
-        <h2>${item.heading}</h2>
-        <p>${item.description}</p>
-        <button onClick=btnDelete(${index}) >Delete</button>
-        </div>
-        `;
-        todoList.appendChild(div);
-    })
-    
-
-    return;
-  }
+  myNode.innerHTML = "";
+  todos.map((todo, index) => {
+    let div = document.createElement("div");
+    div.className = "singelTodo";
+    div.id = `box${index}`;
+    div.innerHTML = `
+    <h3>${index + 1}</h3>
+    <h2>${todo}</h2>
+    <input type="checkbox" class="inputCheck">
+    <button onclick=deletTodo(${index}) >delete</button>
+    `;
+    myNode.appendChild(div);
+  });
 }
 
 
-function btnDelete(index){
-  console.log(index);
-  let div= document.getElementById(`todo${index}`);
-  div.remove();
-  let data = localStorage.getItem("todo");
-  let result = JSON.parse(data);
-  result.splice(index,1);
-  localStorage.setItem("todo", JSON.stringify(result));
-  display();
+function checkBox(index){
+  let box=document.getElementById(`inputCheck${index}`).value;
+  console.log(box);
   
 }
