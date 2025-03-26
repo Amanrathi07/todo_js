@@ -34,15 +34,16 @@ function display() {
 
     todoList.innerHTML = "";
     result.map((item,index)=>{
-        let li = document.createElement("li");
-        li.innerHTML = `
-        <div index=${index}>
+        let div = document.createElement("div");
+        
+        div.innerHTML = `
+        <div class="todo" id=todo${index}>
         <h2>${item.heading}</h2>
         <p>${item.description}</p>
-        <button onclick="deleteBtn(index)">Delete</button>
+        <button onClick=btnDelete(${index}) >Delete</button>
         </div>
         `;
-        todoList.appendChild(li);
+        todoList.appendChild(div);
     })
     
 
@@ -51,6 +52,14 @@ function display() {
 }
 
 
-function deleteBtn(index){
-    console.log(index);
-} 
+function btnDelete(index){
+  console.log(index);
+  let div= document.getElementById(`todo${index}`);
+  div.remove();
+  let data = localStorage.getItem("todo");
+  let result = JSON.parse(data);
+  result.splice(index,1);
+  localStorage.setItem("todo", JSON.stringify(result));
+  display();
+  
+}
