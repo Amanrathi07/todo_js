@@ -32,18 +32,12 @@ function displayTodo() {
     div.className = "singelTodo";
     div.id = `box${index}`;
     div.innerHTML = `
-    <h3>${index + 1}</h3>
-    <h2>${todo}</h2>
-    <input type="checkbox" class="inputCheck">
+    <h3>${index + 1} .</h3>
+    <h2 id=todoId${index}>${todo}</h2>
+   
     <button onclick=deletTodo(${index}) >delete</button>
     `;
     myNode.appendChild(div);
   });
 }
 
-
-function checkBox(index){
-  let box=document.getElementById(`inputCheck${index}`).value;
-  console.log(box);
-  
-}
